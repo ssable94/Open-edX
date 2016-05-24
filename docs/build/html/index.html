@@ -5,10 +5,12 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta content="open edX, dogwood, edx, AWS, amazon web servies" name="keywords" />
+<meta content="A demonstration of the open edX installation on amazon web services." lang="en" name="description" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Open edX (Dogwood on AWS)’s documentation! &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
+  <title>Open edX (Dogwood Relase) installation and configuration &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
   
 
   
@@ -79,9 +81,28 @@
           
             
             
-                <ul class="simple">
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Open edX (Dogwood Relase) installation and configuration</a><ul>
+<li><a class="reference internal" href="#implementation-on-amazon-web-services">Implementation on Amazon Web Services</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#about-open-edx">About Open edx</a><ul>
+<li><a class="reference internal" href="#edx">edX</a></li>
+<li><a class="reference internal" href="#open-edx">Open edX</a></li>
 </ul>
-
+</li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#virtual-machine-instance">Virtual Machine Instance</a></li>
+<li><a class="reference internal" href="#prerequisite">Prerequisite</a></li>
+<li><a class="reference internal" href="#automated-installation">Automated installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
             
           
         </div>
@@ -110,7 +131,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
       
-    <li>Welcome to Open edX (Dogwood on AWS)&#8217;s documentation!</li>
+    <li>Open edX (Dogwood Relase) installation and configuration</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -124,21 +145,151 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-open-edx-dogwood-on-aws-s-documentation">
-<h1>Welcome to Open edX (Dogwood on AWS)&#8217;s documentation!<a class="headerlink" href="#welcome-to-open-edx-dogwood-on-aws-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul class="simple">
-</ul>
-</div>
-</div>
+  <div class="section" id="open-edx-dogwood-relase-installation-and-configuration">
+<h1>Open edX (Dogwood Relase) installation and configuration<a class="headerlink" href="#open-edx-dogwood-relase-installation-and-configuration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="implementation-on-amazon-web-services">
+<h2>Implementation on Amazon Web Services<a class="headerlink" href="#implementation-on-amazon-web-services" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Sachin Sable</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Address:</th><td class="field-body">2669 E. 7th Street, Apt i
+Bloomington, IN - 47408
+USA</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Contact:</th><td class="field-body"><a class="reference external" href="mailto:ssable&#37;&#52;&#48;umail&#46;iu&#46;edu">ssable<span>&#64;</span>umail<span>&#46;</span>iu<span>&#46;</span>edu</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">organization:</th><td class="field-body">Data Science Program</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">date:</th><td class="field-body">24 May 2016</td>
+</tr>
+<tr class="field-even field"><th class="field-name">status:</th><td class="field-body">This is a &#8220;work in progress&#8221;</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">This document has been placed in the public domain. You
+may do with it as you wish. You may copy, modify,
+redistribute, reattribute, sell, buy, rent, lease,
+destroy, or improve it, quote it at length, excerpt,
+incorporate, collate, fold, staple, or mutilate it, or do
+anything else to it that your or anyone else&#8217;s heart
+desires.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Dedication:</th><td class="field-body">For developers who want to install Open edX platform.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">abstract:</th><td class="field-body">This document is a demonstration of the how to install and configure open edX platform (dogwood release) on amazon web services.</td>
+</tr>
+</tbody>
+</table>
 <div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h3>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 <li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
+</div>
+<div class="section" id="about-open-edx">
+<h3>About Open edx<a class="headerlink" href="#about-open-edx" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="edx">
+<h4>edX<a class="headerlink" href="#edx" title="Permalink to this headline">¶</a></h4>
+<p>EdX is a nonprofit online initiative created by founding partners Harvard and MIT and composed of dozens of leading global institutions, the xConsortium. EdX offers interactive online courses and MOOCs from the world’s best universities and institutions.</p>
+</div>
+<div class="section" id="open-edx">
+<h4>Open edX<a class="headerlink" href="#open-edx" title="Permalink to this headline">¶</a></h4>
+<p>The Open edX platform is a free&#8211;and open source&#8211;course management system (CMS) that was originally developed by edX. The Open edX platform is used all over the world to host Massive Open Online Courses (MOOCs) as well as smaller classes and training modules.</p>
+<p><a class="reference external" href="https://open.edx.org">Visit Open edX website</a></p>
+</div>
+</div>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="virtual-machine-instance">
+<h4>Virtual Machine Instance<a class="headerlink" href="#virtual-machine-instance" title="Permalink to this headline">¶</a></h4>
+<p>Launch virtual machine instance in Amazon EC2</p>
+<p>Follow steps</p>
+<ol class="arabic simple">
+<li>Click on &#8216;Launch Instance&#8217;</li>
+<li>Chose &#8216;Community AMIs&#8217;</li>
+<li>Search &#8216;ubuntu 12.04 precise server&#8217;</li>
+<li>Select the AMI</li>
+<li>Configure the machine according to following attributes in the table</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>OS</td>
+<td>Ubuntu 12.04 precise server</td>
+</tr>
+<tr class="row-odd"><td>Architecure</td>
+<td>64 bit</td>
+</tr>
+<tr class="row-even"><td>Root device type</td>
+<td>EBS</td>
+</tr>
+<tr class="row-odd"><td>Architecure</td>
+<td>64 bit</td>
+</tr>
+<tr class="row-even"><td>Virtualization type</td>
+<td>paravirtual</td>
+</tr>
+<tr class="row-odd"><td>Instance Type</td>
+<td>Compute optimized (c3.large)</td>
+</tr>
+<tr class="row-even"><td>Instance Details</td>
+<td>Use default settings</td>
+</tr>
+<tr class="row-odd"><td>Storage</td>
+<td>General Purpose SSD (GP2)</td>
+</tr>
+<tr class="row-even"><td>Size</td>
+<td>50 GB</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple">
+<li>Do not forget to create security group allowing  traffic from required ports such as SSH on port 22, LMS and CMS traffic on port 80 and 18010.</li>
+<li>These are the suggested attributes, you can change the attributes except the operating system - &#8216;ubuntu 12.04&#8217;</li>
+</ol>
+</div>
+</div>
+<div class="section" id="prerequisite">
+<h4>Prerequisite<a class="headerlink" href="#prerequisite" title="Permalink to this headline">¶</a></h4>
+<p>Update Ubuntu package sources</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo reboot
+</pre></div>
+</div>
+</div>
+<div class="section" id="automated-installation">
+<h4>Automated installation<a class="headerlink" href="#automated-installation" title="Permalink to this headline">¶</a></h4>
+<p>Follow following steps for automated installation</p>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Set environment variable to open edX release</span>
+<span class="nb">export</span> <span class="nv">OPENEDX_RELEASE</span><span class="o">=</span>named-release/dogwood.3
+wget https://raw.githubusercontent.com/edx/configuration/master/util/install/ansible-bootstrap.sh -O - <span class="p">|</span> sudo bash
+<span class="c1"># Activate virtual environment</span>
+<span class="nb">source</span> /edx/app/edx_ansible/venvs/edx_ansible/bin/activate
+wget https://raw.githubusercontent.com/edx/configuration/<span class="nv">$OPENEDX_RELEASE</span>/util/install/sandbox.sh -O - <span class="p">|</span> bash
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+</div>
 </div>
 
 

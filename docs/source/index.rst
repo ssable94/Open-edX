@@ -3,13 +3,43 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Open edX (Dogwood on AWS)'s documentation!
-=====================================================
+========================================================
+Open edX (Dogwood Relase) installation and configuration
+========================================================
 
-Contents:
+-------------------------------------
+Implementation on Amazon Web Services
+-------------------------------------
 
-.. toctree::
-   :maxdepth: 2
+:Author: Sachin Sable
+:Address: 2669 E. 7th Street, Apt i
+          Bloomington, IN - 47408
+          USA
+:Contact: ssable@umail.iu.edu
+:organization: Data Science Program
+:date: 24 May 2016
+:status: This is a "work in progress"
+:copyright: This document has been placed in the public domain. You
+            may do with it as you wish. You may copy, modify,
+            redistribute, reattribute, sell, buy, rent, lease,
+            destroy, or improve it, quote it at length, excerpt,
+            incorporate, collate, fold, staple, or mutilate it, or do
+            anything else to it that your or anyone else's heart
+            desires.
+
+:Dedication:
+
+    For developers who want to install Open edX platform.
+
+:abstract:
+
+    This document is a demonstration of the how to install and configure open edX platform (dogwood release) on amazon web services.
+
+.. meta::
+   :keywords: open edX, dogwood, edx, AWS, amazon web servies
+   :description lang=en: A demonstration of the open edX installation on amazon web services.
+
+
 
 
 
@@ -20,6 +50,85 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-Test
-====
+About Open edx
+==============
+edX
+---
+EdX is a nonprofit online initiative created by founding partners Harvard and MIT and composed of dozens of leading global institutions, the xConsortium. EdX offers interactive online courses and MOOCs from the world’s best universities and institutions.
+
+Open edX
+--------
+The Open edX platform is a free--and open source--course management system (CMS) that was originally developed by edX. The Open edX platform is used all over the world to host Massive Open Online Courses (MOOCs) as well as smaller classes and training modules.
+
+`Visit Open edX website <https://open.edx.org>`__
+
+Installation
+============
+
+Virtual Machine Instance
+------------------------
+
+Launch virtual machine instance in Amazon EC2
+
+Follow steps
+
+1. Click on 'Launch Instance'
+2. Chose 'Community AMIs'
+3. Search 'ubuntu 12.04 precise server'
+4. Select the AMI
+5. Configure the machine according to following attributes in the table
+
+
++-------------------+-------------------------------+
+|Attribute          |Value                          |
++===================+===============================+
+|OS                 |Ubuntu 12.04 precise server    |
++-------------------+-------------------------------+
+|Architecure        |64 bit                         |
++-------------------+-------------------------------+
+|Root device type   |EBS                            |
++-------------------+-------------------------------+
+|Architecure        |64 bit                         |
++-------------------+-------------------------------+
+|Virtualization type|paravirtual                    |
++-------------------+-------------------------------+
+|Instance Type      |Compute optimized (c3.large)   |
++-------------------+-------------------------------+
+|Instance Details   |Use default settings           |
++-------------------+-------------------------------+
+|Storage            |General Purpose SSD (GP2)      |
++-------------------+-------------------------------+
+|Size               |50 GB                          |
++-------------------+-------------------------------+
+
+
+.. note::
+    1. Do not forget to create security group allowing  traffic from required ports such as SSH on port 22, LMS and CMS traffic on port 80 and 18010.
+    2. These are the suggested attributes, you can change the attributes except the operating system - 'ubuntu 12.04'
+
+Prerequisite
+------------
+
+Update Ubuntu package sources
+
+.. code-block:: shell
+
+    sudo apt-get update -y
+    sudo apt-get upgrade -y
+    sudo reboot
+
+Automated installation
+----------------------
+
+Follow following steps for automated installation
+
+.. code-block:: shell
+    :linenos:
+
+    # Set environment variable to open edX release
+    export OPENEDX_RELEASE=named-release/dogwood.3
+    wget https://raw.githubusercontent.com/edx/configuration/master/util/install/ansible-bootstrap.sh -O - | sudo bash
+    # Activate virtual environment
+    source /edx/app/edx_ansible/venvs/edx_ansible/bin/activate
+    wget https://raw.githubusercontent.com/edx/configuration/$OPENEDX_RELEASE/util/install/sandbox.sh -O - | bash
 
