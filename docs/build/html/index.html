@@ -95,6 +95,13 @@
 <li><a class="reference internal" href="#virtual-machine-instance">Virtual Machine Instance</a></li>
 <li><a class="reference internal" href="#prerequisite">Prerequisite</a></li>
 <li><a class="reference internal" href="#automated-installation">Automated installation</a></li>
+<li><a class="reference internal" href="#basic-information-and-configuration">Basic information and Configuration</a><ul>
+<li><a class="reference internal" href="#domain-name">Domain Name</a></li>
+<li><a class="reference internal" href="#accessing-open-edx">Accessing open edX</a></li>
+<li><a class="reference internal" href="#manage-users">Manage Users</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#integrating-amazon-ses">Integrating Amazon SES</a></li>
 </ul>
 </li>
 </ul>
@@ -287,6 +294,94 @@ wget https://raw.githubusercontent.com/edx/configuration/master/util/install/ans
 wget https://raw.githubusercontent.com/edx/configuration/<span class="nv">$OPENEDX_RELEASE</span>/util/install/sandbox.sh -O - <span class="p">|</span> bash
 </pre></div>
 </td></tr></table></div>
+</div>
+<div class="section" id="basic-information-and-configuration">
+<h4>Basic information and Configuration<a class="headerlink" href="#basic-information-and-configuration" title="Permalink to this headline">¶</a></h4>
+<p>You should have running open edX system after performing automated installation. Next step is to configure open edX platform.</p>
+<div class="section" id="domain-name">
+<h5>Domain Name<a class="headerlink" href="#domain-name" title="Permalink to this headline">¶</a></h5>
+<p>IP address of the instance running open edX can be mapped with domain name. It is good idea to have domain name as it will be easy to use. Also, it will be useful while integrating with other services, as many will require to configure DNS settings, such as DKIM signature.</p>
+</div>
+<div class="section" id="accessing-open-edx">
+<h5>Accessing open edX<a class="headerlink" href="#accessing-open-edx" title="Permalink to this headline">¶</a></h5>
+<p>lms is accessed using port 80, and cms is accessed using port 18010.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LMS</td>
+<td>domain_name:80</td>
+</tr>
+<tr class="row-even"><td>LMS admin</td>
+<td>domain_name:80/admin</td>
+</tr>
+<tr class="row-odd"><td>CMS</td>
+<td>domain_name:18010</td>
+</tr>
+<tr class="row-even"><td>CMS admin</td>
+<td>domain_name:18010/admin</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="manage-users">
+<h5>Manage Users<a class="headerlink" href="#manage-users" title="Permalink to this headline">¶</a></h5>
+<p>Default users and passwords:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Username</th>
+<th class="head">Password</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>honor</td>
+<td>edx</td>
+</tr>
+<tr class="row-odd"><td>audit</td>
+<td>edx</td>
+</tr>
+<tr class="row-even"><td>verified</td>
+<td>edx</td>
+</tr>
+<tr class="row-odd"><td>staff</td>
+<td>edx</td>
+</tr>
+</tbody>
+</table>
+<p>Initially no user has superuser access, thus we need to go through command line and give users superuser access.</p>
+<p>We can change the user permissions by manually modifiying &#8216;auth_user&#8217; table inside &#8216;edxapp&#8217; database. It has two important parameters. First is &#8216;is_staff&#8217; indicates if user can access admin console or not. Second is &#8216;is_superuser&#8217; it indicates if user can modify the setting using admin console.</p>
+<p>Let&#8217;s give superuser access to user - staff.</p>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ sudo -u www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py
+mysql&gt; use edxapp<span class="p">;</span>
+mysql&gt; update auth_user <span class="nb">set</span> <span class="nv">is_superuser</span><span class="o">=</span><span class="m">1</span> where <span class="nv">username</span><span class="o">=</span><span class="s2">&quot;staff&quot;</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>for security purposes</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To improve security, after giving superuser permissions to &#8216;staff&#8217; user, login into admin console and change default password of &#8216;staff&#8217;.</p>
+</div>
+</div>
+</div>
+<div class="section" id="integrating-amazon-ses">
+<h4>Integrating Amazon SES<a class="headerlink" href="#integrating-amazon-ses" title="Permalink to this headline">¶</a></h4>
+<p>Before integrating SES we need to install postfix and configure it to send emails. Postfix should be configured properly and it should be able to send emails. After this step we need to verify email addresses from which emails will be sent. Emails can be varified from Amazon web service -&gt; SES -&gt; Email Addresses (Identity Management).</p>
+<dl class="docutils">
+<dt>Resources for installing postfix and configuring Amazon SES</dt>
+<dd><ol class="first last arabic simple">
+<li><a class="reference external" href="https://help.ubuntu.com/community/Postfix">Postfix installation guide from ubuntu community</a></li>
+<li><a class="reference external" href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/postfix.html">Integrating Amazon SES with Postfix</a></li>
+</ol>
+</dd>
+</dl>
 </div>
 </div>
 </div>

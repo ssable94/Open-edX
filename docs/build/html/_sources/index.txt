@@ -132,3 +132,103 @@ Follow following steps for automated installation
     source /edx/app/edx_ansible/venvs/edx_ansible/bin/activate
     wget https://raw.githubusercontent.com/edx/configuration/$OPENEDX_RELEASE/util/install/sandbox.sh -O - | bash
 
+Basic information and Configuration
+-----------------------------------
+
+You should have running open edX system after performing automated installation. Next step is to configure open edX platform.
+
+Domain Name
+```````````
+
+IP address of the instance running open edX can be mapped with domain name. It is good idea to have domain name as it will be easy to use. Also, it will be useful while integrating with other services, as many will require to configure DNS settings, such as DKIM signature.
+
+Accessing open edX
+``````````````````
+
+lms is accessed using port 80, and cms is accessed using port 18010.
+
++-----------+-----------------------+
+|LMS        |domain_name:80         |
++-----------+-----------------------+
+|LMS admin  |domain_name:80/admin   |
++-----------+-----------------------+
+|CMS        |domain_name:18010      |
++-----------+-----------------------+
+|CMS admin  |domain_name:18010/admin|
++-----------+-----------------------+
+
+
+Manage Users
+````````````
+
+Default users and passwords:
+
++-----------+-----------+
+|Username   |Password   |
++===========+===========+
+|honor      |edx        |
++-----------+-----------+
+|audit      |edx        |
++-----------+-----------+
+|verified   |edx        |
++-----------+-----------+
+|staff      |edx        |
++-----------+-----------+
+
+Initially no user has superuser access, thus we need to go through command line and give users superuser access.
+
+We can change the user permissions by manually modifiying 'auth_user' table inside 'edxapp' database. It has two important parameters. First is 'is_staff' indicates if user can access admin console or not. Second is 'is_superuser' it indicates if user can modify the setting using admin console.
+
+Let's give superuser access to user - staff.
+
+.. code-block:: shell
+    :linenos:
+    
+    $ sudo -u www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py 
+    mysql> use edxapp;
+    mysql> update auth_user set is_superuser=1 where username="staff";
+
+
+for security purposes
+
+.. note::
+    To improve security, after giving superuser permissions to 'staff' user, login into admin console and change default password of 'staff'.
+
+Integrating Amazon SES
+----------------------
+
+Before integrating SES we need to install postfix and configure it to send emails. Postfix should be configured properly and it should be able to send emails. After this step we need to verify email addresses from which emails will be sent. Emails can be varified from Amazon web service -> SES -> Email Addresses (Identity Management).
+
+Resources for installing postfix and configuring Amazon SES
+    1. `Postfix installation guide from ubuntu community <https://help.ubuntu.com/community/Postfix>`__
+    2. `Integrating Amazon SES with Postfix <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/postfix.html>`__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
