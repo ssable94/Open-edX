@@ -102,6 +102,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#integrating-amazon-ses">Integrating Amazon SES</a></li>
+<li><a class="reference internal" href="#configuring-verification-link">Configuring verification link</a></li>
 </ul>
 </li>
 </ul>
@@ -359,7 +360,7 @@ wget https://raw.githubusercontent.com/edx/configuration/<span class="nv">$OPENE
 <p>Let&#8217;s give superuser access to user - staff.</p>
 <div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ sudo -u www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ sudo -u www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms --settings aws dbshell
 mysql&gt; use edxapp<span class="p">;</span>
 mysql&gt; update auth_user <span class="nb">set</span> <span class="nv">is_superuser</span><span class="o">=</span><span class="m">1</span> where <span class="nv">username</span><span class="o">=</span><span class="s2">&quot;staff&quot;</span><span class="p">;</span>
 </pre></div>
@@ -382,6 +383,10 @@ mysql&gt; update auth_user <span class="nb">set</span> <span class="nv">is_super
 </ol>
 </dd>
 </dl>
+</div>
+<div class="section" id="configuring-verification-link">
+<h4>Configuring verification link<a class="headerlink" href="#configuring-verification-link" title="Permalink to this headline">¶</a></h4>
+<p>When user</p>
 </div>
 </div>
 </div>

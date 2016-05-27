@@ -184,7 +184,7 @@ Let's give superuser access to user - staff.
 .. code-block:: shell
     :linenos:
     
-    $ sudo -u www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py 
+    $ sudo -u www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms --settings aws dbshell
     mysql> use edxapp;
     mysql> update auth_user set is_superuser=1 where username="staff";
 
@@ -203,6 +203,11 @@ Resources for installing postfix and configuring Amazon SES
     1. `Postfix installation guide from ubuntu community <https://help.ubuntu.com/community/Postfix>`__
     2. `Integrating Amazon SES with Postfix <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/postfix.html>`__
 
+
+Configuring verification link
+-----------------------------
+
+When user
 
 
 
