@@ -12,25 +12,13 @@ Implementation on Amazon Web Services
 -------------------------------------
 
 :Author: Sachin Sable
-:Address: 2669 E. 7th Street, Apt i
-          Bloomington, IN - 47408
-          USA
 :Contact: ssable@umail.iu.edu
 :organization: Data Science Program
 :date: 24 May 2016
 :status: This is a "work in progress"
-:copyright: This document has been placed in the public domain. You
-            may do with it as you wish. You may copy, modify,
-            redistribute, reattribute, sell, buy, rent, lease,
-            destroy, or improve it, quote it at length, excerpt,
-            incorporate, collate, fold, staple, or mutilate it, or do
-            anything else to it that your or anyone else's heart
-            desires.
-
+:copyright: This document has been placed in the public domain. You may copy, modify, redistribute, reattribute, improve it, quote it at length, excerpt, incorporate.
 :Dedication:
-
     For developers who want to install Open edX platform.
-
 :abstract:
 
     This document is a demonstration of the how to install and configure open edX platform (dogwood release) on amazon web services.
