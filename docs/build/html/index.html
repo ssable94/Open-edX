@@ -102,7 +102,20 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#integrating-amazon-ses">Integrating Amazon SES</a></li>
+<li><a class="reference internal" href="#dkim-settings">DKIM settings</a><ul>
+<li><a class="reference internal" href="#references">references</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#configuring-verification-link">Configuring verification link</a></li>
+<li><a class="reference internal" href="#installing-theme-stanford-theme">Installing Theme (Stanford theme)</a></li>
+<li><a class="reference internal" href="#id1">References</a></li>
+<li><a class="reference internal" href="#fixing-view-course-in-studio-and-view-live-buttons">Fixing &#8216;view course in studio&#8217; and &#8216;view live&#8217; buttons</a></li>
+<li><a class="reference internal" href="#deleting-courses">Deleting courses</a></li>
+<li><a class="reference internal" href="#shibboleth-configuration">Shibboleth configuration</a></li>
+<li><a class="reference internal" href="#working-with-amazon-snapshot-and-bug">Working with Amazon snapshot and bug</a></li>
+<li><a class="reference internal" href="#how-to-create-documentation-using-sphinx-and-readthedocs">How to create documentation using sphinx and readthedocs</a></li>
+<li><a class="reference internal" href="#update-command">Update command</a></li>
+<li><a class="reference internal" href="#edx-search">edX-search</a></li>
 </ul>
 </li>
 </ul>
@@ -374,9 +387,72 @@ mysql&gt; update auth_user <span class="nb">set</span> <span class="nv">is_super
 </dd>
 </dl>
 </div>
+<div class="section" id="dkim-settings">
+<h4>DKIM settings<a class="headerlink" href="#dkim-settings" title="Permalink to this headline">¶</a></h4>
+<p>DomainKeys Identified Mail (DKIM) lets an organization take responsibility for a message that is in transit.  The organization is a handler of the message, either as its originator or as an intermediary. Their reputation is the basis for evaluating whether to trust the message for further handling, such as delivery. Technically DKIM provides a method for validating a domain name identity that is associated with a message through cryptographic authentication. DKIM attaches a new domain name identifier to a message and uses cryptographic techniques to validate authorization for its presence. The identifier is independent of any other identifier in the message, such in the author&#8217;s From: field.</p>
+<p>It is strongly advised to send DKIM signed emails. As it authenticated the sender and guarantees that message was not modified while in transit. Thus, it&#8217;s spam score will be reduced and it will have higher chances of ending in inbox rather than spam folder.</p>
+<div class="section" id="references">
+<h5>references<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h5>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://www.dkim.org">DKIM.org</a></li>
+</ol>
+</div>
+</div>
 <div class="section" id="configuring-verification-link">
 <h4>Configuring verification link<a class="headerlink" href="#configuring-verification-link" title="Permalink to this headline">¶</a></h4>
-<p>When user</p>
+<p>After a student registers on edX platform, student will need to verify the email address he/she provided. edX will send a verification link to email id provided by student. By default this verfication link will be addressed to localhost. We need to replace localhost by DNS of edX platform. It requires to modify environmental variable in /edx/app/edxapp/lms.env.json, change variable &#8216;SITE_NAME&#8217; to DNS of edX platform. Now whenever student registers, he/she will get verification link pointing ot edX platform and not localhost.</p>
+</div>
+<div class="section" id="installing-theme-stanford-theme">
+<h4>Installing Theme (Stanford theme)<a class="headerlink" href="#installing-theme-stanford-theme" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Modify /edx/app/edx_ansible/server-vars.yml to contain following variables set to given values.</li>
+</ol>
+<div class="highlight-javascript"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nx">edxapp_use_custom_theme</span><span class="o">:</span> <span class="kc">true</span>
+<span class="nx">edxapp_theme_name</span><span class="o">:</span> <span class="s1">&#39;stanford&#39;</span>
+<span class="nx">edxapp_theme_source_repo</span><span class="o">:</span> <span class="s1">&#39;git://github.com/Stanford-Online/edx-theme.git&#39;</span>
+<span class="nx">edxapp_theme_version</span><span class="o">:</span> <span class="s1">&#39;HEAD&#39;</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="2">
+<li>Now run the provisioning script</li>
+</ol>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ sudo /edx/bin/update edx-platform named-release/dogwood.3
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id1">
+<h4>References<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li>Standford theme installation: <a class="reference external" href="http://www.dangtrinh.com/2014/03/edx-platform-using-standford-them-for.html">http://www.dangtrinh.com/2014/03/edx-platform-using-standford-them-for.html</a></li>
+</ol>
+</div>
+<div class="section" id="fixing-view-course-in-studio-and-view-live-buttons">
+<h4>Fixing &#8216;view course in studio&#8217; and &#8216;view live&#8217; buttons<a class="headerlink" href="#fixing-view-course-in-studio-and-view-live-buttons" title="Permalink to this headline">¶</a></h4>
+<p>&#8216;View course in studio&#8217; button will take you from learning platform to CMS, so that you can modify the course.
+&#8216;View live&#8217; button will take you from CMS to LMS platform.</p>
+<p>Thus, these two buttons are used to navigate between LMS and CMS platform for a course.</p>
+<p>Hence, LMS needs to know the DNS for CMS, to configure it, in file /edx/app/edxapp/lms.env.json change the value of &#8220;CMS_BASE&#8221; to DNS of CMS. Similarly, for CMS to know DNS of LMS, in file /edx/app/edxapp/cms.env.json change the value of &#8220;LMS_BASE&#8221; to DNS of LMS.</p>
+</div>
+<div class="section" id="deleting-courses">
+<h4>Deleting courses<a class="headerlink" href="#deleting-courses" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="shibboleth-configuration">
+<h4>Shibboleth configuration<a class="headerlink" href="#shibboleth-configuration" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="working-with-amazon-snapshot-and-bug">
+<h4>Working with Amazon snapshot and bug<a class="headerlink" href="#working-with-amazon-snapshot-and-bug" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="how-to-create-documentation-using-sphinx-and-readthedocs">
+<h4>How to create documentation using sphinx and readthedocs<a class="headerlink" href="#how-to-create-documentation-using-sphinx-and-readthedocs" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="update-command">
+<h4>Update command<a class="headerlink" href="#update-command" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="edx-search">
+<h4>edX-search<a class="headerlink" href="#edx-search" title="Permalink to this headline">¶</a></h4>
 </div>
 </div>
 </div>
