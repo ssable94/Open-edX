@@ -198,11 +198,12 @@ DomainKeys Identified Mail (DKIM) lets an organization take responsibility for a
 
 It is strongly advised to send DKIM signed emails. As it authenticated the sender and guarantees that message was not modified while in transit. Thus, it's spam score will be reduced and it will have higher chances of ending in inbox rather than spam folder.
 
+Please follow `Easy DKIM in Amazon SES <http://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html>`__ to implement DKIM signature in AWS.
+
 
 
 references
 ``````````
-
 1. `DKIM.org <http://www.dkim.org>`__
 
 
@@ -249,19 +250,108 @@ Hence, LMS needs to know the DNS for CMS, to configure it, in file /edx/app/edxa
 Deleting courses
 ----------------
 
+To delete the course you need to know id of the course. use the first command to list ids of available courses and next two commands to delete the course.
+
+.. code-block:: shell
+    :linenos:
+    
+    sudo -u www-data /edx/bin/python.edxapp /edx/bin/manage.edxapp lms dump_course_ids --settings aws
+    sudo -u edxapp /edx/bin/python.edxapp ./manage.py cms --settings=aws delete_orphans <course id> --commit
+    sudo -u edxapp /edx/bin/python.edxapp ./manage.py cms --settings=aws delete_course <course id>
+
 
 
 Shibboleth configuration
 ------------------------
 
+First follow the steps outlined here -
+http://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/
+
+After 4.16.3 section, go to /edx/app/edxapp/lms.env.json and add the following lines to the end just before the closing ‘]’ -
+
+.. code-block:: shell
+    
+    "THIRD_PARTY_AUTH_BACKENDS": [
+        "third_party_auth.saml.SAMLAuthBackend"
+    ]
+
+Next, in Django admin for LMS, under third_party_auth section, in Provider Configuration (SAML IdP), add SAML Provider configuration and fill it with the data available in IU KB here - https://kb.iu.edu/d/bdgs
+
+The metadata column in the above page should me marked done after a couple of minutes.
+
+Only for integrating with Indiana University:
+
+1. follow the steps outlined in the IU KB - https://kb.iu.edu/d/bdag
+2. After this setup, you should see the login with IU button.
+
 Working with Amazon snapshot and bug
 ------------------------------------
+
+While working on AWS EC2 it was observed that if you create instance using snapshot, it causes rabbitmqctl to malfunction and celery workers cannot connect to amqp.
+
+If you check log file /edx/var/log/cms/edx.log, you will see following error
+
+.. code-block:: shell
+    
+    error: [Errno 104] Connection reset by peer 
+
+if you check error log for workers (available in /edx/var/log/supervisor/) you will find similar
+
+.. code-block:: shell
+
+    [2015-11-03 14:07:56,018: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@127.0.0.1:5672//: [Errno 111] Connection refused.
+    Trying again in 4.00 seconds...
+
+    [2015-11-03 14:08:00,036: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@127.0.0.1:5672//: [Errno 111] Connection refused.
+    Trying again in 6.00 seconds...
+
+It means that all celery workers are unable to connect to amqp broker.
+
+We need to have celery user is created. We can check celery user is defined in Open edX config \*.auth.json. Below is default value.
+
+.. code-block:: shell
+
+    "CELERY_BROKER_PASSWORD": "celery",
+    "CELERY_BROKER_USER": "celery",
+
+Solve the problem using following steps
+
+.. code-block:: shell
+    :linenos:
+    
+    # List rabbitnq users
+    $ sudo rabbitmqctl list_users
+    Listing users ...
+    guest    [administrator]
+    # create user
+    $ sudo rabbitmqctl add_user celery celery
+    Creating user "celery" ...
+    # set permissions for celery user
+    $ sudo rabbitmqctl set_permissions celery ".*" ".*" ".*"
+    Setting permissions for user "celery" in vhost "/" ...
+    # restart rabbitmq-server
+    $ sudo service rabbitmq-server restart
+     * Restarting message broker rabbitmq-server     [OK]
+    # we need to restart the apps
+    $ sudo /edx/bin/supervisorctl restart all
+
+
+reference
+`````````
+1. `blogs.infinitesquares.net <http://blogs.infinitesquares.net/open-edx-issue-cannot-open-course-in-cms/>`__
 
 How to create documentation using sphinx and readthedocs
 --------------------------------------------------------
 
+Follow `Youtube tutorial <https://www.youtube.com/watch?v=oJsUvBQyHBs>`__.
+
 Update command
 --------------
+
+When you run the update command it will change the port number for lms to 8000, to avoid this use server-vars.yml file to mention port number.
+
+Officemix
+---------
 
 edX-search
 ----------
