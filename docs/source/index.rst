@@ -353,6 +353,21 @@ When you run the update command it will change the port number for lms to 8000, 
 Officemix
 ---------
 
+To install officemix xblock in edx, first clone github repository on the instance. then install the officemix. After installation you need to enable xblock by adding xblock in 'Advanced Module List' in http://<studio DNS>/settings/advanced/<course id>. Now you should be able to see officemix xblock while creating courses.
+
+Steps are as follow:
+
+.. Note::
+    
+    Make sure to activate 'edx-env' virtual environment.
+
+.. code-block:: shell
+    :linenos:
+    
+    $ git clone https://github.com/OfficeDev/xblock-officemix
+    $ cd xblock-officemix
+    $ pip install -r requirements.txt
+
 edX-search
 ----------
 

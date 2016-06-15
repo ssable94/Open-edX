@@ -540,6 +540,19 @@ $ sudo /edx/bin/supervisorctl restart all
 </div>
 <div class="section" id="officemix">
 <h4>Officemix<a class="headerlink" href="#officemix" title="Permalink to this headline">¶</a></h4>
+<p>To install officemix xblock in edx, first clone github repository on the instance. then install the officemix. After installation you need to enable xblock by adding xblock in &#8216;Advanced Module List&#8217; in <a class="reference external" href="http:/">http:/</a>/&lt;studio DNS&gt;/settings/advanced/&lt;course id&gt;. Now you should be able to see officemix xblock while creating courses.</p>
+<p>Steps are as follow:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure to activate &#8216;edx-env&#8217; virtual environment.</p>
+</div>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ git clone https://github.com/OfficeDev/xblock-officemix
+$ <span class="nb">cd</span> xblock-officemix
+$ pip install -r requirements.txt
+</pre></div>
+</td></tr></table></div>
 </div>
 <div class="section" id="edx-search">
 <h4>edX-search<a class="headerlink" href="#edx-search" title="Permalink to this headline">¶</a></h4>
