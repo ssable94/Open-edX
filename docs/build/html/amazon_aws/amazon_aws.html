@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4.1. Basic Amazon SES Integrating &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Open edX (Dogwood on AWS) 1 documentation" href="../index.html"/>
+        <link rel="up" title="4. Amazon AWS Integration" href="index.html"/>
+        <link rel="prev" title="4. Amazon AWS Integration" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Open edX (Dogwood on AWS)
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../general_info.html">1. General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">2. Installation Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basic_info_config.html">3. Basic information and Configuration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. Amazon AWS Integration</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.1. Basic Amazon SES Integrating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dkim-settings">4.2. DKIM settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#references">4.2.1. references</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-verification-link">4.3. Configuring verification link</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Open edX (Dogwood on AWS)</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">4. Amazon AWS Integration</a> &raquo;</li>
+      
+    <li>4.1. Basic Amazon SES Integrating</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/amazon_aws/amazon_aws.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="basic-amazon-ses-integrating">
+<h1>4.1. Basic Amazon SES Integrating<a class="headerlink" href="#basic-amazon-ses-integrating" title="Permalink to this headline">¶</a></h1>
+<p>Before integrating SES we need to install postfix and configure it to send emails. Postfix should be configured properly and it should be able to send emails. After this step we need to verify email addresses from which emails will be sent. Emails can be varified from Amazon web service -&gt; SES -&gt; Email Addresses (Identity Management).</p>
+<dl class="docutils">
+<dt>Resources for installing postfix and configuring Amazon SES</dt>
+<dd><ol class="first last arabic simple">
+<li><a class="reference external" href="https://help.ubuntu.com/community/Postfix">Postfix installation guide from ubuntu community</a></li>
+<li><a class="reference external" href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/postfix.html">Integrating Amazon SES with Postfix</a></li>
+</ol>
+</dd>
+</dl>
+</div>
+<div class="section" id="dkim-settings">
+<h1>4.2. DKIM settings<a class="headerlink" href="#dkim-settings" title="Permalink to this headline">¶</a></h1>
+<p>DomainKeys Identified Mail (DKIM) lets an organization take responsibility for a message that is in transit.  The organization is a handler of the message, either as its originator or as an intermediary. Their reputation is the basis for evaluating whether to trust the message for further handling, such as delivery. Technically DKIM provides a method for validating a domain name identity that is associated with a message through cryptographic authentication. DKIM attaches a new domain name identifier to a message and uses cryptographic techniques to validate authorization for its presence. The identifier is independent of any other identifier in the message, such in the author&#8217;s From: field.</p>
+<p>It is strongly advised to send DKIM signed emails. As it authenticated the sender and guarantees that message was not modified while in transit. Thus, it&#8217;s spam score will be reduced and it will have higher chances of ending in inbox rather than spam folder.</p>
+<p>Please follow <a class="reference external" href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Easy DKIM in Amazon SES</a> to implement DKIM signature in AWS.</p>
+<div class="section" id="references">
+<h2>4.2.1. references<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://www.dkim.org">DKIM.org</a></li>
+</ol>
+</div>
+</div>
+<div class="section" id="configuring-verification-link">
+<h1>4.3. Configuring verification link<a class="headerlink" href="#configuring-verification-link" title="Permalink to this headline">¶</a></h1>
+<p>After a student registers on edX platform, student will need to verify the email address he/she provided. edX will send a verification link to email id provided by student. By default this verfication link will be addressed to localhost. We need to replace localhost by DNS of edX platform. It requires to modify environmental variable in /edx/app/edxapp/lms.env.json, change variable &#8216;SITE_NAME&#8217; to DNS of edX platform. Now whenever student registers, he/she will get verification link pointing ot edX platform and not localhost.</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="4. Amazon AWS Integration" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Sachin Sable.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

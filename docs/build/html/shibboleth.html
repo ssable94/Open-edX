@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
+  <title>5. Shibboleth configuration &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
   
 
   
@@ -30,7 +30,8 @@
   
 
   
-    <link rel="top" title="Open edX (Dogwood on AWS) 1 documentation" href="index.html"/> 
+    <link rel="top" title="Open edX (Dogwood on AWS) 1 documentation" href="index.html"/>
+        <link rel="prev" title="4.1. Basic Amazon SES Integrating" href="amazon_aws/amazon_aws.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -65,7 +66,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -79,12 +80,12 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="general_info.html">1. General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">2. Installation Process</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic_info_config/index.html">3. Basic information and configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="amazon_aws/index.html">4. Amazon AWS Integration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="shibboleth.html">5. Shibboleth configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Shibboleth configuration</a></li>
 </ul>
 
             
@@ -107,7 +108,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -115,8 +116,12 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li></li>
+    <li>5. Shibboleth configuration</li>
       <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/shibboleth.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
@@ -125,23 +130,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="shibboleth-configuration">
+<h1>5. Shibboleth configuration<a class="headerlink" href="#shibboleth-configuration" title="Permalink to this headline">¶</a></h1>
+<p>First follow the steps outlined here -
+<a class="reference external" href="http://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/">http://edx.readthedocs.io/projects/edx-installing-configuring-and-running/en/latest/configuration/tpa/</a></p>
+<p>After 4.16.3 section, go to /edx/app/edxapp/lms.env.json and add the following lines to the end just before the closing ‘]’ -</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="s2">&quot;THIRD_PARTY_AUTH_BACKENDS&quot;</span>: <span class="o">[</span>
+    <span class="s2">&quot;third_party_auth.saml.SAMLAuthBackend&quot;</span>
+<span class="o">]</span>
+</pre></div>
+</div>
+<p>Next, in Django admin for LMS, under third_party_auth section, in Provider Configuration (SAML IdP), add SAML Provider configuration and fill it with the data available in IU KB here - <a class="reference external" href="https://kb.iu.edu/d/bdgs">https://kb.iu.edu/d/bdgs</a></p>
+<p>The metadata column in the above page should me marked done after a couple of minutes.</p>
+<p>Only for integrating with Indiana University:</p>
+<ol class="arabic simple">
+<li>follow the steps outlined in the IU KB - <a class="reference external" href="https://kb.iu.edu/d/bdag">https://kb.iu.edu/d/bdag</a></li>
+<li>After this setup, you should see the login with IU button.</li>
+</ol>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="amazon_aws/amazon_aws.html" class="btn btn-neutral" title="4.1. Basic Amazon SES Integrating" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -179,7 +197,6 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/searchtools.js"></script>
 
   
 
@@ -195,14 +212,7 @@
           SphinxRtdTheme.StickyNav.enable();
       });
   </script>
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

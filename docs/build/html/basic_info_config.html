@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. Basic information and Configuration &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Open edX (Dogwood on AWS) 1 documentation" href="index.html"/>
+        <link rel="prev" title="2.1. Virtual Machine Instance" href="installation/installation.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Open edX (Dogwood on AWS)
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="general_info.html">1. General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">2. Installation Process</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Basic information and Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#domain-name">3.1. Domain Name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-open-edx">3.2. Accessing open edX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manage-users">3.3. Manage Users</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Open edX (Dogwood on AWS)</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>3. Basic information and Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/basic_info_config.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="basic-information-and-configuration">
+<h1>3. Basic information and Configuration<a class="headerlink" href="#basic-information-and-configuration" title="Permalink to this headline">¶</a></h1>
+<p>You should have running open edX system after performing automated installation. Next step is to configure open edX platform.</p>
+<div class="section" id="domain-name">
+<h2>3.1. Domain Name<a class="headerlink" href="#domain-name" title="Permalink to this headline">¶</a></h2>
+<p>IP address of the instance running open edX can be mapped with domain name. It is good idea to have domain name as it will be easy to use. Also, it will be useful while integrating with other services, as many will require to configure DNS settings, such as DKIM signature.</p>
+</div>
+<div class="section" id="accessing-open-edx">
+<h2>3.2. Accessing open edX<a class="headerlink" href="#accessing-open-edx" title="Permalink to this headline">¶</a></h2>
+<p>lms is accessed using port 80, and cms is accessed using port 18010.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LMS</td>
+<td>domain_name:80</td>
+</tr>
+<tr class="row-even"><td>LMS admin</td>
+<td>domain_name:80/admin</td>
+</tr>
+<tr class="row-odd"><td>CMS</td>
+<td>domain_name:18010</td>
+</tr>
+<tr class="row-even"><td>CMS admin</td>
+<td>domain_name:18010/admin</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="manage-users">
+<h2>3.3. Manage Users<a class="headerlink" href="#manage-users" title="Permalink to this headline">¶</a></h2>
+<p>Default users and passwords:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Username</th>
+<th class="head">Password</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>honor</td>
+<td>edx</td>
+</tr>
+<tr class="row-odd"><td>audit</td>
+<td>edx</td>
+</tr>
+<tr class="row-even"><td>verified</td>
+<td>edx</td>
+</tr>
+<tr class="row-odd"><td>staff</td>
+<td>edx</td>
+</tr>
+</tbody>
+</table>
+<p>Initially no user has superuser access, thus we need to go through command line and give users superuser access.</p>
+<p>We can change the user permissions by manually modifiying &#8216;auth_user&#8217; table inside &#8216;edxapp&#8217; database. It has two important parameters. First is &#8216;is_staff&#8217; indicates if user can access admin console or not. Second is &#8216;is_superuser&#8217; it indicates if user can modify the setting using admin console.</p>
+<p>Let&#8217;s give superuser access to user - staff.</p>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>$ sudo -u www-data /edx/app/edxapp/venvs/edxapp/bin/python /edx/app/edxapp/edx-platform/manage.py lms --settings aws dbshell
+mysql&gt; use edxapp<span class="p">;</span>
+mysql&gt; update auth_user <span class="nb">set</span> <span class="nv">is_superuser</span><span class="o">=</span><span class="m">1</span> where <span class="nv">username</span><span class="o">=</span><span class="s2">&quot;staff&quot;</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>for security purposes</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To improve security, after giving superuser permissions to &#8216;staff&#8217; user, login into admin console and change default password of &#8216;staff&#8217;.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="installation/installation.html" class="btn btn-neutral" title="2.1. Virtual Machine Instance" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Sachin Sable.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
