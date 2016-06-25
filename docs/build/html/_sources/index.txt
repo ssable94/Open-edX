@@ -18,3 +18,6 @@ Open edX (Dogwood.3 installation, configuration, and customization on AWS)
    basic_info_config/index
    amazon_aws/index
    shibboleth
+   amazon_snapshot_bug
+   documentation
+

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
+  <title>7. Documentation &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
   
 
   
@@ -30,7 +30,8 @@
   
 
   
-    <link rel="top" title="Open edX (Dogwood on AWS) 1 documentation" href="index.html"/> 
+    <link rel="top" title="Open edX (Dogwood on AWS) 1 documentation" href="index.html"/>
+        <link rel="prev" title="6. Amazon snapshot bug" href="amazon_snapshot_bug.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -65,7 +66,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -79,14 +80,14 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="general_info.html">1. General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">2. Installation Process</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic_info_config/index.html">3. Basic information and configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="amazon_aws/index.html">4. Amazon AWS Integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shibboleth.html">5. Shibboleth configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="amazon_snapshot_bug.html">6. Amazon snapshot bug</a></li>
-<li class="toctree-l1"><a class="reference internal" href="documentation.html">7. Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. Documentation</a></li>
 </ul>
 
             
@@ -109,7 +110,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -117,8 +118,12 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li></li>
+    <li>7. Documentation</li>
       <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/documentation.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
@@ -127,23 +132,71 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <p>from docutils import nodes
+from docutils.parsers.rst import directives</p>
+<p>CODE = &#8220;&#8221;&#8220;&lt;object type=&#8221;application/x-shockwave-flash&#8221;</p>
+<blockquote>
+<div><blockquote>
+<div>width=&#8221;%(width)s&#8221;
+height=&#8221;%(height)s&#8221;
+class=&#8221;youtube-embed&#8221;
+data=&#8221;<a class="reference external" href="http://www.youtube.com/v/%(yid)s">http://www.youtube.com/v/%(yid)s</a>&#8220;&gt;</div></blockquote>
+<p>&lt;param name=&#8221;movie&#8221; value=&#8221;<a class="reference external" href="http://www.youtube.com/v/%(yid)s">http://www.youtube.com/v/%(yid)s</a>&#8220;&gt;&lt;/param&gt;
+&lt;param name=&#8221;wmode&#8221; value=&#8221;transparent&#8221;&gt;&lt;/param&gt;%(extra)s</p>
+</div></blockquote>
+<p>&lt;/object&gt;
+&#8220;&#8221;&#8220;</p>
+<p>PARAM = &#8220;&#8221;&#8220;n    &lt;param name=&#8221;%s&#8221; value=&#8221;%s&#8221;&gt;&lt;/param&gt;&#8221;&#8220;&#8221;</p>
+<dl class="docutils">
+<dt>def youtube(name, args, options, content, lineno,</dt>
+<dd><blockquote class="first">
+<div>contentOffset, blockText, state, stateMachine):</div></blockquote>
+<p>&#8220;&#8221;&#8221; Restructured text extension for inserting youtube embedded videos &#8220;&#8221;&#8221;
+if len(content) == 0:</p>
+<blockquote>
+<div>return</div></blockquote>
+<dl class="docutils">
+<dt>string_vars = {</dt>
+<dd>&#8216;yid&#8217;: content[0],
+&#8216;width&#8217;: 425,
+&#8216;height&#8217;: 344,
+&#8216;extra&#8217;: &#8216;&#8217;
+}</dd>
+</dl>
+<p>extra_args = content[1:] # Because content[0] is ID
+extra_args = [ea.strip().split(&#8220;=&#8221;) for ea in extra_args] # key=value
+extra_args = [ea for ea in extra_args if len(ea) == 2] # drop bad lines
+extra_args = dict(extra_args)
+if &#8216;width&#8217; in extra_args:</p>
+<blockquote>
+<div>string_vars[&#8216;width&#8217;] = extra_args.pop(&#8216;width&#8217;)</div></blockquote>
+<dl class="docutils">
+<dt>if &#8216;height&#8217; in extra_args:</dt>
+<dd>string_vars[&#8216;height&#8217;] = extra_args.pop(&#8216;height&#8217;)</dd>
+<dt>if extra_args:</dt>
+<dd>params = [PARAM % (key, extra_args[key]) for key in extra_args]
+string_vars[&#8216;extra&#8217;] = &#8220;&#8221;.join(params)</dd>
+</dl>
+<p class="last">return [nodes.raw(&#8216;&#8217;, CODE % (string_vars), format=&#8217;html&#8217;)]</p>
+</dd>
+</dl>
+<p>youtube.content = True
+directives.register_directive(&#8216;youtube&#8217;, youtube)</p>
+<div class="section" id="documentation">
+<h1>7. Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="amazon_snapshot_bug.html" class="btn btn-neutral" title="6. Amazon snapshot bug" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -181,7 +234,6 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/searchtools.js"></script>
 
   
 
@@ -197,14 +249,7 @@
           SphinxRtdTheme.StickyNav.enable();
       });
   </script>
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

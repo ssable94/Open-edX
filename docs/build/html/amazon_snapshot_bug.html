@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6. Amazon snapshot bug &mdash; Open edX (Dogwood on AWS) 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Open edX (Dogwood on AWS) 1 documentation" href="index.html"/>
+        <link rel="prev" title="5. Shibboleth configuration" href="shibboleth.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Open edX (Dogwood on AWS)
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="general_info.html">1. General Information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">2. Installation Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_info_config/index.html">3. Basic information and configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="amazon_aws/index.html">4. Amazon AWS Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shibboleth.html">5. Shibboleth configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Amazon snapshot bug</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#reference">6.1. reference</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Open edX (Dogwood on AWS)</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>6. Amazon snapshot bug</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/amazon_snapshot_bug.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="amazon-snapshot-bug">
+<h1>6. Amazon snapshot bug<a class="headerlink" href="#amazon-snapshot-bug" title="Permalink to this headline">¶</a></h1>
+<p>While working on AWS EC2 it was observed that if you create instance using snapshot, it causes rabbitmqctl to malfunction and celery workers cannot connect to amqp.</p>
+<p>If you check log file /edx/var/log/cms/edx.log, you will see following error</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>error: <span class="o">[</span>Errno 104<span class="o">]</span> Connection reset by peer
+</pre></div>
+</div>
+<p>if you check error log for workers (available in /edx/var/log/supervisor/) you will find similar</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="o">[</span>2015-11-03 14:07:56,018: ERROR/MainProcess<span class="o">]</span> consumer: Cannot connect to amqp://celery:**@127.0.0.1:5672//: <span class="o">[</span>Errno 111<span class="o">]</span> Connection refused.
+Trying again in 4.00 seconds...
+
+<span class="o">[</span>2015-11-03 14:08:00,036: ERROR/MainProcess<span class="o">]</span> consumer: Cannot connect to amqp://celery:**@127.0.0.1:5672//: <span class="o">[</span>Errno 111<span class="o">]</span> Connection refused.
+Trying again in 6.00 seconds...
+</pre></div>
+</div>
+<p>It means that all celery workers are unable to connect to amqp broker.</p>
+<p>We need to have celery user is created. We can check celery user is defined in Open edX config *.auth.json. Below is default value.</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="s2">&quot;CELERY_BROKER_PASSWORD&quot;</span>: <span class="s2">&quot;celery&quot;</span>,
+<span class="s2">&quot;CELERY_BROKER_USER&quot;</span>: <span class="s2">&quot;celery&quot;</span>,
+</pre></div>
+</div>
+<p>Solve the problem using following steps</p>
+<div class="highlight-shell"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># List rabbitnq users</span>
+$ sudo rabbitmqctl list_users
+Listing users ...
+guest    <span class="o">[</span>administrator<span class="o">]</span>
+<span class="c1"># create user</span>
+$ sudo rabbitmqctl add_user celery celery
+Creating user <span class="s2">&quot;celery&quot;</span> ...
+<span class="c1"># set permissions for celery user</span>
+$ sudo rabbitmqctl set_permissions celery <span class="s2">&quot;.*&quot;</span> <span class="s2">&quot;.*&quot;</span> <span class="s2">&quot;.*&quot;</span>
+Setting permissions <span class="k">for</span> user <span class="s2">&quot;celery&quot;</span> in vhost <span class="s2">&quot;/&quot;</span> ...
+<span class="c1"># restart rabbitmq-server</span>
+$ sudo service rabbitmq-server restart
+ * Restarting message broker rabbitmq-server     <span class="o">[</span>OK<span class="o">]</span>
+<span class="c1"># we need to restart the apps</span>
+$ sudo /edx/bin/supervisorctl restart all
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="reference">
+<h2>6.1. reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><a class="reference external" href="http://blogs.infinitesquares.net/open-edx-issue-cannot-open-course-in-cms/">blogs.infinitesquares.net</a></li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="shibboleth.html" class="btn btn-neutral" title="5. Shibboleth configuration" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Sachin Sable.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
